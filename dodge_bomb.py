@@ -49,6 +49,23 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
     return bb_imgs, bb_accs
 
 
+def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
+    kk_img = pg.image.load("fig/3.png")
+    kk_img_re = pg.transform.flip(kk_img, True, False)
+    kk_dict = {
+        (0, 0): pg.transform.rotozoom(kk_img, 0, 1.0),
+        (+5, 0): pg.transform.rotozoom(kk_img_re, 0, 1.0),
+        (+5, -5): pg.transform.rotozoom(kk_img_re, 45, 1.0),
+        (0, -5): pg.transform.rotozoom(kk_img_re, 90, 1.0),
+        (-5, -5): pg.transform.rotozoom(kk_img, -45, 1.0),
+        (-5, 0): pg.transform.rotozoom(kk_img, 0, 1.0),
+        (-5, +5): pg.transform.rotozoom(kk_img, 45, 1.0),
+        (0, +5): pg.transform.rotozoom(kk_img_re, -90, 1.0),
+        (+5, +5): pg.transform.rotozoom(kk_img_re, -45, 1.0)
+    }
+    return kk_dict
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -65,7 +82,8 @@ def main():
     vx, vy = +5, +5  # 爆弾の速度
     clock = pg.time.Clock()
     tmr = 0
-    bb_imgs, bb_accs = init_bb_imgs() # 爆弾の性質に関するリストを取得
+    bb_imgs, bb_accs = init_bb_imgs()  # 爆弾の性質に関するリストを取得
+    kk_imgs = get_kk_imgs()  # こうかとんの向きに関するリストを取得
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -89,6 +107,7 @@ def main():
         #     sum_mv[0] -= 5
         # if key_lst[pg.K_RIGHT]:
         #     sum_mv[0] += 5
+        kk_img = kk_imgs[tuple(sum_mv)]  # 押下キーに応じて方向転換
         kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
