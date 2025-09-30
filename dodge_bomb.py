@@ -18,7 +18,7 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     yoko, tate = True, True
     if rct.left < 0 or WIDTH < rct.right:  # 横方向にはみ出ていたら
         yoko = False
-    if rct.right < 0 or HEIGHT < rct.bottom:
+    if rct.top < 0 or HEIGHT < rct.bottom:
         tate = False
     return yoko, tate
 
