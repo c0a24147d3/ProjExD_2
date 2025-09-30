@@ -2,6 +2,7 @@ import os
 import random
 import sys
 import pygame as pg
+import time
 
 
 WIDTH, HEIGHT = 1100, 650
@@ -22,6 +23,19 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
         tate = False
     return yoko, tate
 
+
+def gameover(screen: pg.Surface) -> None:
+    ov_back = pg.Surface((1500, 1500))
+    ov_back.set_alpha(210)
+    ov_font = pg.font.Font(None, 100)
+    txt = ov_font.render("Game Over", True, (255, 255, 255))
+    ov_back.blit(txt, [350, 300])
+    ov_img = pg.image.load("fig/8.png")
+    ov_back.blit(ov_img, [275, 300])
+    ov_back.blit(ov_img, [750, 300])
+    screen.blit(ov_back, [0, 0])
+    pg.display.update()
+    time.sleep(5)
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -45,6 +59,7 @@ def main():
                 return
         screen.blit(bg_img, [0, 0])
         if kk_rct.colliderect(bb_rct):
+            gameover(screen)
             return 
 
         key_lst = pg.key.get_pressed()
