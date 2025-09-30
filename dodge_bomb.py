@@ -63,7 +63,7 @@ def main():
         #     sum_mv[0] += 5
         kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True, True):
-            kk_rct.move_ip(-sum.mv[0], -sum.mv[1])
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
         bb_rct.move_ip(vx,vy)
         yoko, tate = check_bound(bb_rct)
